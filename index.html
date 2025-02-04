@@ -258,11 +258,12 @@
               'devMode': true
             })
           })
-          .then(response => response.json())
+          //.then(response => response.json())
 	
           .then(data => {
-            this.handleResponse(data.message);
+            this.handleResponse(data);
           })
+		      
           .catch(error => {
             console.error('Error:', error);
             this.showMessage('資料送出時發生錯誤：' + error.message, 'error');
