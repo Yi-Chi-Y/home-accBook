@@ -259,9 +259,9 @@
             })
           })
           .then(response => response.json())
-          .then(data => {
-            this.handleResponse(data.response.result);
-          })
+        //  .then(data => {
+        //    this.handleResponse(data.response.result);
+        //  })
           .catch(error => {
             console.error('Error:', error);
             this.showMessage('資料送出時發生錯誤：' + error.message, 'error');
