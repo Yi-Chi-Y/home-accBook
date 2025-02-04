@@ -1,3 +1,57 @@
-fetch('https://script.google.com/macros/s/AKfycbxxCBAZVxW4u62tcSxaHhMfS0LhyEcNEpa6dcB2vQ7DYmjNXYNc6PjgcpjMp5SAgd1Bgw/exec')
-  .then(response => response.json())
-  .then(data => console.log(data));
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>記帳系統</title>
+</head>
+<body>
+    <h1>記帳</h1>
+    <button onclick="fetchData()">載入資料</button>
+    <div id="data"></div>
+
+    <script>
+        function fetchData() {
+            fetch("https://script.google.com/macros/s/AKfycbxxCBAZVxW4u62tcSxaHhMfS0LhyEcNEpa6dcB2vQ7DYmjNXYNc6PjgcpjMp5SAgd1Bgw/exec")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("data").innerHTML = JSON.stringify(data, null, 2);
+                })
+                .catch(error => console.error("錯誤:", error));
+        }
+    </script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>記帳系統</title>
+</head>
+<body>
+    
+    <button onclick="fetchData()">前往記帳</button>
+	<button onclick="goToMain()">查看明細</button>
+    <div id="data"></div>
+
+    <script>
+        function fetchData() {
+            fetch("https://script.google.com/macros/s/AKfycbxxCBAZVxW4u62tcSxaHhMfS0LhyEcNEpa6dcB2vQ7DYmjNXYNc6PjgcpjMp5SAgd1Bgw/exec")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("data").innerHTML = JSON.stringify(data, null, 2);
+                })
+                .catch(error => console.error("錯誤:", error));
+        }
+
+        // 頁面載入時自動執行
+        window.onload = fetchData;
+		function goToMain() {
+			window.location.href = window.location.href.replace(/exce$/, "exce?page=main");
+		}
+    </script>
+</body>
+</html>
