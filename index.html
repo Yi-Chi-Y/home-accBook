@@ -259,8 +259,9 @@
             })
           })
           .then(response => response.json())
+	
           .then(data => {
-            this.handleResponse(data.response);
+            this.handleResponse(data.message);
           })
           .catch(error => {
             console.error('Error:', error);
@@ -274,6 +275,7 @@
           this.isLoading = false; // 取消 loading
         }
       });
+      
           },
 
           //處理回應
