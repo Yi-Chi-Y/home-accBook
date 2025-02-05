@@ -228,6 +228,7 @@
               fetch(this.appScriptAPI, {
                 method: 'POST',
                 headers: {
+                  "Authorization": "swsvsztest " + gapi.auth.getToken().access_token,
                   'Content-Type': 'application/json'
                 },
                 // body: JSON.stringify({
