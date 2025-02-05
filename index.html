@@ -55,6 +55,7 @@
 
         <el-form-item v-if="form.category === '交通'" label="類別細項">
           <el-radio-group v-model="form.detail">
+	 <el-radio label="停車費"></el-radio>
             <el-radio label="機車油錢"></el-radio>
             <el-radio label="汽車油錢"></el-radio>
             <el-radio label="過路費"></el-radio>
@@ -99,6 +100,7 @@
 
         <el-form-item v-if="form.category === '家庭'" label="類別細項">
           <el-radio-group v-model="form.detail">
+	    <el-radio label="日常用品"></el-radio>
             <el-radio label="管理費"></el-radio>
             <el-radio label="水"></el-radio>
             <el-radio label="電"></el-radio>
@@ -112,6 +114,7 @@
 
         <el-form-item v-if="form.category === '長輩'" label="類別細項">
           <el-radio-group v-model="form.detail">
+	    <el-radio label="補貼"></el-radio>
             <el-radio label="孝親費"></el-radio>
             <el-radio label="請客"></el-radio>
             <el-radio label="紅包"></el-radio>
@@ -261,10 +264,10 @@
 			*/
 			body: JSON.stringify(this.form)
           })
-          .then(response => response.json())
-		  .then(data => {
-			this.handleResponse(data);
-		  })
+          //.then(response => response.json())
+	  .then(data => {
+	  `	this.handleResponse(data);
+	  })
 				  
           .catch(error => {
             console.error('Error:', error);
