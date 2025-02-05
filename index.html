@@ -209,113 +209,88 @@
           };
         },
         methods: {
-          //控制分頁執行
-          /*
-          handleTabClick(tab) {
-            if (tab.label === "個人帳本 personal") {
-              function updateUrlParameterToMain() {
-                const url = new URL(window.location.href);
-
-                // 檢查是否已經有參數
-                if (url.searchParams.has("page")) {
-                  // 替換參數值為 'main'
-                  url.searchParams.set("page", "main");
-                } else {
-                  // 如果沒有參數則新增
-                  url.searchParams.append("page", "main");
-                }
-
-                // 將修改後的 URL 設置回去，並重新載入頁面
-                window.location.href = url.toString();
-              }
-            }
-          },
-          */
-// https://script.google.com/macros/s/AKfycbxdEGfyuX9imCIcgnSTx5tslgwKvibh6afjlIesay22Vc2mvn6S1LLwcxiCDlBpcGvjyQ/exec?page=input
-// 用網址控制
-
           
-          //送出表單
-          onSubmit(formName) {
-            if (!this.$refs[formName]) {
-              console.error('找不到表單實例，請確認 ref 設定正確');
-              this.showMessage('找不到表單實例，請確認 ref 設定正確','error');
-              return;
-            }
-            this.$refs[formName].validate((valid) => {
-              if (valid) {
-                console.log('表單驗證通過');
-                this.showMessage('表單驗證通過','success');
-                this.isLoading = true;
-                
-               // google.script.run.withSuccessHandler(this.handleResponse).submitData(this.form);
+		//送出表單
+		onSubmit(formName) {
+			if (!this.$refs[formName]) {
+				console.error('找不到表單實例，請確認 ref 設定正確');
+				this.showMessage('找不到表單實例，請確認 ref 設定正確','error');
+				return;
+				}
+				this.$refs[formName].validate((valid) => {
+					if (valid) {
+						console.log('表單驗證通過');
+						this.showMessage('表單驗證通過','success');
+						//this.isLoading = true;
+					
+				   
+				fetch(appScriptAPI, {
+					method: 'POST',
+					headers: {
+					'Content-Type': 'application/json'
+					},
+				/*
+				body: JSON.stringify({
+				  'function': 'submitData',
+				  'parameters': [this.form],
+				  'devMode': true
+				})
+				*/
+					body: JSON.stringify(this.form)
+				})
+				.then(response => response.json()) //確保解析 JSON
+				this.showMessage('this.response：' + this.response);
+				.then(data => {
+				`	this.handleResponse(data);
+				})
+				 this.showMessage('this.data：' + this.data);
+				.catch(error => {
+					console.error('Error:', error);
+					this.showMessage('資料送出時發生錯誤：' + error.message, 'error');
+					this.isLoading = false; // 取消 loading
+				});
 
-              fetch(appScriptAPI, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-			/*
-            body: JSON.stringify({
-              'function': 'submitData',
-              'parameters': [this.form],
-              'devMode': true
-            })
-			*/
-			body: JSON.stringify(this.form)
-          })
-          //.then(response => response.json())
-	  .then(data => {
-	  `	this.handleResponse(data);
-	  })
-				  
-          .catch(error => {
-            console.error('Error:', error);
-            this.showMessage('資料送出時發生錯誤：' + error.message, 'error');
-            this.isLoading = false; // 取消 loading
-          });
-
-        } else {
-          console.log('表單驗證失敗');
-          this.showMessage('表單驗證失敗','error');
-          this.isLoading = false; // 取消 loading
-        }
-      });
+			} else {
+				console.log('表單驗證失敗');
+				this.showMessage('表單驗證失敗','error');
+				this.isLoading = false; // 取消 loading
+			}
+		});
       
-          },
+		},
 
-          //處理回應
-          handleResponse: function(response) {
-            this.$message({
-              showClose: true,
-              message: response.message,
-              type: response.status
-            });
-            if (response.status === 'success') {
-              // 清空表單
-              //this.$refs.form.resetFields();
-              this.form.method = null,
-              this.form.category = null,
-              this.form.detail = null,
-              this.form.amount = null,
-              this.form.memo = null
-            }
-          
-            this.isLoading=false;
-          },
+		//處理回應
+		handleResponse: function(response) {
+			this.$message({
+			showClose: true,
+			message: response.message,
+			type: response.status
+			});
+			
+			if (response.status === 'success') {
+				// 清空表單,error則保留
+				//this.$refs.form.resetFields();
+				this.form.method = null,
+				this.form.category = null,
+				this.form.detail = null,
+				this.form.amount = null,
+				this.form.memo = null
+			}
+		  
+			this.isLoading=false;
+		  },
 
           //訊息設定
           showMessage: function(msg, type) {
             this.$message({
-              showClose: true,
-              duration:3000,
-              message: msg,
-              type: type
+				showClose: true,
+				duration:30000,
+				message: msg,
+				type: type
             });
           }
           
         }
-      });
     </script>
     <style>
       /* 整體表單字體放大 */
