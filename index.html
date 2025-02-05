@@ -201,8 +201,8 @@
               method: [{ required: true, message: '請選擇分帳方式', trigger: 'change' }],
               category: [{ required: true, message: '請選擇類別', trigger: 'change' }],
               amount: [ { required: true, message: '請輸入金額', trigger: 'blur' },{ validator: checkAmount, trigger: 'blur' }]
-            }
-            
+            },
+            appScriptAPI: "https://script.googleapis.com/v1/scripts/AKfycbyiUzfvVRsnOeeaV_EjMtcptHaeifUBuERcCjvurowRiPvNQkKzrD2ZtFSMhi23kPFSUw:run"
           };
         },
         methods: {
@@ -247,23 +247,25 @@
                 
                // google.script.run.withSuccessHandler(this.handleResponse).submitData(this.form);
 
-              fetch('https://script.googleapis.com/v1/scripts/AKfycbxwU9JgPw-vAeg8q6p5z3qGst67gd-cGAt_5Te-zRTrClqYOLiGMHfwQKlkHlzT2lNXdg:run', {
+              fetch(appScriptAPI, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
+			/*
             body: JSON.stringify({
               'function': 'submitData',
               'parameters': [this.form],
               'devMode': true
             })
+			*/
+			body: JSON.stringify(this.form
           })
-          //.then(response => response.json())
-	
-          .then(data => {
-            this.handleResponse(data);
-          })
-		      
+          .then(response => response.json())
+		  .then(data => {
+			this.handleResponse(data);
+		  })
+				  
           .catch(error => {
             console.error('Error:', error);
             this.showMessage('資料送出時發生錯誤：' + error.message, 'error');
