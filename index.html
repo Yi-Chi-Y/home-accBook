@@ -1,9 +1,331 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Form Submission</title>
-  </head>
-  <body>
-    <iframe src="https://script.google.com/macros/s/AKfycbwzb0yqPHqyq3A6MA6TQajHuJoj4P9Cxyaiijb3AJJDogrs0Pv6VUnCqdVnoet4QCw-pA/exec" width="100%" height="500px"></iframe>
-  </body>
+
+<head>
+  <meta charset="utf-8">
+  <!-- <base target="_top"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>賴楊記帳表</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script src="https://apis.google.com/js/api.js"></script>
+</head>
+
+<body>
+  <div id="app" v-loading="isLoading" element-loading-background="rgba(0, 0, 0, 0.5)" text="送出中...">
+    <!-- <el-form ref="form" :model="form" label-width="80px" > -->
+    <el-form :model="form" :rules="rules" ref="form" label-width="100px">
+      <el-form-item label="支付人" prop="user">
+        <el-radio-group v-model="form.user">
+          <el-radio label="Zong"></el-radio>
+          <el-radio label="Joy"></el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="分帳方式" prop="method">
+        <el-radio-group v-model="form.method">
+          <el-radio label="自己"></el-radio>
+          <el-radio label="平分"></el-radio>
+          <el-radio label="對方"></el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="類別" prop="category">
+        <el-radio-group v-model="form.category">
+          <el-radio label="飲食"></el-radio>
+          <el-radio label="交通"></el-radio>
+          <el-radio label="購物"></el-radio>
+          <el-radio label="娛樂"></el-radio>
+          <el-radio label="家庭"></el-radio>
+          <el-radio label="長輩"></el-radio>
+          <el-radio label="孩子"></el-radio>
+          <el-radio label="寵物"></el-radio>
+          <el-radio label="學習"></el-radio>
+
+          <el-radio label="健康"></el-radio>
+          <el-radio label="收入"></el-radio>
+          <el-radio label="投資"></el-radio>
+          <el-radio label="稅金"></el-radio>
+
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item v-if="form.category === '飲食'" label="類別細項">
+        <el-radio-group v-model="form.detail">
+          <el-radio label="飲料"></el-radio>
+          <el-radio label="三餐"></el-radio>
+          <el-radio label="點心"></el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+      <el-form-item v-if="form.category === '交通'" label="類別細項">
+        <el-radio-group v-model="form.detail">
+          <el-radio label="停車費"></el-radio>
+          <el-radio label="機車油錢"></el-radio>
+          <el-radio label="汽車油錢"></el-radio>
+          <el-radio label="過路費"></el-radio>
+          <el-radio label="維修保養"></el-radio>
+          <el-radio label="洗車"></el-radio>
+          <el-radio label="火車/捷運"></el-radio>
+          <el-radio label="Ubike"></el-radio>
+          <el-radio label="計程車"></el-radio>
+          <el-radio label="高鐵"></el-radio>
+          <el-radio label="飛機"></el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+      <el-form-item v-if="form.category === '娛樂'" label="類別細項">
+        <el-radio-group v-model="form.detail">
+          <el-radio label="手機電信費"></el-radio>
+          <el-radio label="電影"></el-radio>
+          <el-radio label="KTV"></el-radio>
+          <el-radio label="遊戲"></el-radio>
+          <el-radio label="訂閱服務"></el-radio>
+          <el-radio label="聚餐"></el-radio>
+          <el-radio label="按摩"></el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+      <el-form-item v-if="form.category === '購物'" label="類別細項">
+        <el-radio-group v-model="form.detail">
+          <el-radio label="服飾"></el-radio>
+          <el-radio label="3C"></el-radio>
+          <el-radio label="美妝保養"></el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+      <el-form-item v-if="form.category === '健康'" label="類別細項">
+        <el-radio-group v-model="form.detail">
+          <el-radio label="看診"></el-radio>
+          <el-radio label="保健食品"></el-radio>
+          <el-radio label="健身"></el-radio>
+          <el-radio label="保險"></el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+      <el-form-item v-if="form.category === '家庭'" label="類別細項">
+        <el-radio-group v-model="form.detail">
+          <el-radio label="日常用品"></el-radio>
+          <el-radio label="管理費"></el-radio>
+          <el-radio label="水"></el-radio>
+          <el-radio label="電"></el-radio>
+          <el-radio label="網路"></el-radio>
+          <el-radio label="瓦斯"></el-radio>
+          <el-radio label="居家服務(打掃、洗冷氣、洗衣機清潔)"></el-radio>
+          <el-radio label="大型家電"></el-radio>
+          <el-radio label="修繕"></el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+      <el-form-item v-if="form.category === '長輩'" label="類別細項">
+        <el-radio-group v-model="form.detail">
+          <el-radio label="補貼"></el-radio>
+          <el-radio label="孝親費"></el-radio>
+          <el-radio label="請客"></el-radio>
+          <el-radio label="紅包"></el-radio>
+          <el-radio label="送禮"></el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+      <el-form-item v-if="form.category === '孩子'" label="類別細項">
+        <el-radio-group v-model="form.detail">
+          <el-radio label="產檢"></el-radio>
+          <el-radio label="生產"></el-radio>
+          <el-radio label="坐月子"></el-radio>
+          <el-radio label="嬰兒用品"></el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+      <el-form-item v-if="form.category === '寵物'" label="類別細項">
+        <el-radio-group v-model="form.detail">
+          <el-radio label="伙食"></el-radio>
+          <el-radio label="貓砂"></el-radio>
+          <el-radio label="驅蟲"></el-radio>
+          <el-radio label="玩具"></el-radio>
+          <el-radio label="看診"></el-radio>
+          <el-radio label="其他"></el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+      <el-form-item v-if="form.category === '學習'" label="類別細項">
+        <el-radio-group v-model="form.detail">
+          <el-radio label="就學貸款"></el-radio>
+          <el-radio label="進修"></el-radio>
+          <el-radio label="其他"></el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+
+
+      <!-- 添加其他類別的細項選項 -->
+
+      <el-form-item label="金額" prop="amount">
+        <el-input v-model.number="form.amount"></el-input>
+      </el-form-item>
+      <el-form-item label="備註">
+        <el-input type="textarea" v-model="form.memo"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit('form')">送出</el-button>
+        <el-button>取消</el-button>
+      </el-form-item>
+    </el-form>
+
+  </div>
+
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: function () {
+        //表單金額驗證函數
+        var checkAmount = (rule, value, callback) => {
+          if (!value) {
+            return callback(new Error('請輸入金額'));
+          }
+          // 確保 value 是數字（允許小數點）
+          let num = parseFloat(value);
+          if (isNaN(num)) {
+            return callback(new Error('須為數字'));
+          }
+          if (num < 0) {
+            return callback(new Error('至少1元'));
+          }
+          callback(); // 驗證通過
+        };
+        return {
+          isLoading: false,
+
+          form: {
+            user: null,
+            method: null,
+            category: null,
+            detail: null,
+            amount: '',
+            memo: null
+          },
+          //表單驗證規則
+          rules: {
+            user: [{ required: true, message: '請選擇支付者', trigger: 'change' }],
+            method: [{ required: true, message: '請選擇分帳方式', trigger: 'change' }],
+            category: [{ required: true, message: '請選擇類別', trigger: 'change' }],
+            amount: [{ required: true, message: '請輸入金額', trigger: 'blur' }, { validator: checkAmount, trigger: 'blur' }]
+          },
+          appScriptAPI: "https://script.googleapis.com/v1/scripts/AKfycbw7WLdCgVYACA3rSu8zIoEXCT-EXQzkntREEyi8fNCtT7ISr-2K3Hr0LHdMCrPu8T6cdA:run"
+        };
+      },
+      methods: {
+
+        //送出表單
+        onSubmit(formName) {
+          if (!this.$refs[formName]) {
+            console.error('找不到表單實例，請確認 ref 設定正確');
+            this.showMessage('找不到表單實例，請確認 ref 設定正確', 'error');
+            return;
+          }
+          this.$refs[formName].validate((valid) => {
+            if (valid) {
+              console.log('表單驗證通過');
+              this.showMessage('表單驗證通過', 'success');
+              // this.isLoading = true;
+
+              fetch(this.appScriptAPI, {
+                method: 'POST',
+                headers: {
+                  "Authorization": "swsvsztest " + gapi.auth.getToken().access_token,
+                  'Content-Type': 'application/json'
+                },
+                // body: JSON.stringify({
+                //   'function': 'submitData',
+                //   'parameters': [this.form],
+                //   'devMode': true
+                // })
+                body: JSON.stringify(this.form)
+              })
+                .then(response => response.json()) // 確保解析 JSON
+                .then(data => {
+                  this.handleResponse(data);
+                  this.showMessage('this.response：' + data);
+                })
+                .catch(error => {
+                  console.error('Error:', error);
+                  this.showMessage('資料送出時發生錯誤：' + error.message, 'error');
+                  this.isLoading = false; // 取消 loading
+                });
+
+            } else {
+              console.log('表單驗證失敗');
+              this.showMessage('表單驗證失敗', 'error');
+              this.isLoading = false; // 取消 loading
+            }
+          });
+        },
+
+
+        //處理回應
+        handleResponse: function (response) {
+          this.$message({
+            showClose: true,
+            message: response.message,
+            type: response.status
+          });
+
+          if (response.status === 'success') {
+            // 清空表單,error則保留
+            //this.$refs.form.resetFields();
+            this.form.method = null,
+              this.form.category = null,
+              this.form.detail = null,
+              this.form.amount = null,
+              this.form.memo = null
+          }
+
+          this.isLoading = false;
+        },
+
+        //訊息設定
+        showMessage: function (msg, type) {
+          this.$message({
+            showClose: true,
+            duration: 30000,
+            message: msg,
+            type: type
+          });
+        }
+
+      }
+    })
+  </script>
+  <style>
+    /* 整體表單字體放大 */
+    .el-form {
+      font-size: 20px !important;
+      /* 調整表單內文字大小 */
+    }
+
+    /* 調整單選按鈕的字體大小 */
+    .el-radio-group .el-radio .el-radio__label {
+      font-size: 20px !important;
+      /* 單選按鈕的字體 */
+    }
+
+    .el-form-item .el-form-item__label {
+      font-size: 20px !important;
+      /* 單選按鈕的字體 */
+    }
+
+    /* 輸入框的字體大小 */
+    .el-input__inner,
+    .el-textarea__inner {
+      font-size: 20px;
+      /* 調整輸入框字體大小 */
+    }
+
+    /* 提交按鈕字體大小 */
+    .el-button {
+      font-size: 18px;
+      /* 送出、取消按鈕的字體 */
+      padding: 12px 20px;
+      /* 按鈕變大 */
+    }
+  </style>
+</body>
+
 </html>
