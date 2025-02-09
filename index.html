@@ -231,11 +231,7 @@
           
         };
       },
-      created: function() {
-          google.script.run.withSuccessHandler(this.setUserInfo).getUserInfo();
-          //google.script.run.withSuccessHandler(this.setTableData).getSheetData();
-        },
-     
+      
       methods: {
         //最上方tab 控制
         handleClick(tab, event) {
@@ -332,7 +328,7 @@
               this.isLoading = false;
             }
 
-            google.script.run.withSuccessHandler(this.setTableData).getFilteredData(yearMonth, 記帳本, this.userInfo);
+           // google.script.run.withSuccessHandler(this.setTableData).getFilteredData(yearMonth, 記帳本, this.userInfo);
 
               // 查詢資料，並加上分頁參數
               /*
