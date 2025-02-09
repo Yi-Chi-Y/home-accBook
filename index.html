@@ -239,7 +239,7 @@
 
         //送出表單
         async submitData() {
-		this.isLoading=true;
+		//this.isLoading=true;
 		const url = "https://script.google.com/macros/s/AKfycbw3iIGuyrn9ktXKCcXson6Q85U5ZOI9p6wMuMYYcSijgUsQKKZ15vSJD_NCkV5zNMGKDw/exec"; // 替換為你的 GAS Web App URL
 		try {
 			const res = await fetch(url, {
@@ -251,7 +251,8 @@
 			body: JSON.stringify(this.form),
 			});
 			this.response = await res.json();
-			this.handleResponse(this.response);
+			//this.handleResponse(this.response);
+			this.showMessage('resopone' + this.response,"error");
 		} catch (error) {
             this.response = "錯誤：" + error.message;
 		}
