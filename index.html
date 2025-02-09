@@ -3,7 +3,7 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta charset="utf-8" />
-  <tilte>laiYangBook</tilte>
+  <title>>laiYangBook</title>
 	<link rel="stylesheet"
 		href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
@@ -15,9 +15,9 @@
 <body>
 	<div id="app" v-loading="isLoading"
 		element-loading-background="rgba(0, 0, 0, 0.5)" text="送出中...">
-    <tilte>
+    <title>
     <i class="el-icon-coin" style="font-size:20px;color:#ede321;text-shadow:2px 2px 4px yellow;"></i>
-        馬爾地夫 長灘島 富國島 度假耍廢游泳</tilte>
+        馬爾地夫 長灘島 富國島 度假耍廢游泳</title>
 
     <div class="headline">
       <i class="el-icon-s-home" style="font-size:30px;color:skyblue;text-shadow:2px 2px 4px gray;"></i>
@@ -264,19 +264,19 @@
         },
         */
         async submitData() {
-          const url = "https://script.google.com/macros/s/AKfycbxOuNrlIap4g1cu_LIEgtrLqa_RoyI4g5j3NF9b2PkDgyKsIxye1GUPy2ve3F9oqOT6Xw/exec"; // 替換為你的 GAS Web App URL
-          try {
-            const res = await fetch(url, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(this.form),
-            });
-            this.response = await res.json();
-          } catch (error) {
+			const url = "https://script.google.com/macros/s/AKfycbxkObnOf48Cvm5Zj8DICS3k6mHSxrzidHM97wCylIMoW4ZB0OGMJyBIoHh511y6bAZLLA/exec"; // 替換為你的 GAS Web App URL
+			try {
+				const res = await fetch(url, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(this.form),
+				});
+				this.response = await res.json();
+			} catch (error) {
             this.response = "錯誤：" + error.message;
-          }
+			}
         },
 
         //處理回應
