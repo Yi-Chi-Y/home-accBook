@@ -239,35 +239,12 @@
         },
 
         //送出表單
-        /*
-        onSubmit(formName) {
-          if (!this.$refs[formName]) {
-            console.error('找不到表單實例，請確認 ref 設定正確');
-            this.showMessage('找不到表單實例，請確認 ref 設定正確','error');
-            return;
-          }
-          this.$refs[formName].validate((valid) => {
-            if (valid) {
-              console.log('表單驗證通過');
-              this.showMessage('表單驗證通過','success');
-              this.isLoading = true;
-              
-              console.log("formData = ",this.form);
-              google.script.run.withSuccessHandler(this.handleResponse).submitData(this.form)
-
-            } else {
-              console.log('表單驗證失敗');
-              this.showMessage('表單驗證失敗','error');
-              this.isLoading = false; // 取消 loading
-            }
-          });
-        },
-        */
         async submitData() {
 		const url = "https://script.google.com/macros/s/AKfycby5mS_eIdpgQJROCD12_6iXyiRK8dgqgTI8eeU8NN56ClltXNLhCDfne9ljdSpkID2YtQ/exec"; // 替換為你的 GAS Web App URL
 		try {
 			const res = await fetch(url, {
 			method: "POST",
+			mode: 'no-cors',
 			headers: {
 				"Content-Type": "application/json",
 			},
