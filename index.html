@@ -110,7 +110,7 @@
       </el-form>
     </div>	
 			
-			<!--標籤頁 2 -->
+<!--標籤頁 2 -->
       <div v-if="activeName === 'second'">
         <div>
             <span class="demonstration">年月 : </span>
@@ -214,6 +214,7 @@
           userInfo: null,
           isLoading: false,
           isUserInfoLoaded: false,
+	  response = '',
 
           tableData: [],
           tableHeaders: [],
@@ -240,7 +241,8 @@
 
         //送出表單
         async submitData() {
-		const url = "https://script.google.com/macros/s/AKfycbxTw29TC5gpCeN9qCwRCTtFgOmLFfbfeJojQLKXbdEts3dUN__L3oF1maqlhXqmaW5D2g/exec"; // 替換為你的 GAS Web App URL
+		this.isLoading=true;
+		const url = "https://script.google.com/macros/s/AKfycbw-I3L0UMTVce2JclnXSSjBLAxp-CzXgvaM12J6FWsyLdvoTgh0Sx8z6UkBiDcoUiRBXA/exec"; // 替換為你的 GAS Web App URL
 		try {
 			const res = await fetch(url, {
 			method: "POST",
@@ -251,6 +253,7 @@
 			body: JSON.stringify(this.form),
 			});
 			this.response = await res.json();
+			this.handleRespons(this.response);
 		} catch (error) {
             this.response = "錯誤：" + error.message;
 		}
@@ -265,7 +268,6 @@
           });
           if (response.status === 'success') {
             // 清空表單
-            //this.$refs.form.resetFields();
             this.form.method = null,
             this.form.category = null,
             this.form.detail = null,
