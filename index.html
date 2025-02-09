@@ -264,19 +264,19 @@
         },
         */
         async submitData() {
-			const url = "https://script.google.com/macros/s/AKfycbxKEuc-gS0bHJMappE2XKCdRUqOGZjEIaHSWJdzzTVosXuMo-SaWl5i7JgDgkNebTL2Ew/exec"; // 替換為你的 GAS Web App URL
-			try {
-				const res = await fetch(url, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(this.form),
-				});
-				this.response = await res.json();
-			} catch (error) {
+		const url = "https://script.google.com/macros/s/AKfycbxYgb3RbvaM3S7hJDtvTWCIyOJns2GaZX0u76l3B3iy9f7hrv2ukk9BSQfQryvdpQHesA/exec"; // 替換為你的 GAS Web App URL
+		try {
+			const res = await fetch(url, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(this.form),
+			});
+			this.response = await res.json();
+		} catch (error) {
             this.response = "錯誤：" + error.message;
-			}
+		}
         },
 
         //處理回應
