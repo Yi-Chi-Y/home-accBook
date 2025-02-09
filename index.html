@@ -214,7 +214,6 @@
           userInfo: null,
           isLoading: false,
           isUserInfoLoaded: false,
-	  response = null,
           tableData: [],
           tableHeaders: [],
           sum: null,
@@ -252,7 +251,7 @@
 			body: JSON.stringify(this.form),
 			});
 			this.response = await res.json();
-			this.handleRespons(this.response);
+			this.handleResponse(this.response);
 		} catch (error) {
             this.response = "錯誤：" + error.message;
 		}
